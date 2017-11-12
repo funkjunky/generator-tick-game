@@ -1,0 +1,15 @@
+TODO
+---
+
+ *- setup redux store
+ *- setup redux yield effect and test
+
+ - create call effect that also handles normal functions
+ - create tick effect
+
+ - dispatch fireball generator
+ - create the fireball action generator
+
+ - create structure for game to handle fireball, friendly and enemy
+ - create fireball generator
+ - create the graphics with shapes in canvas using RAF
