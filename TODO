@@ -4,7 +4,8 @@ TODO
  *- setup redux store
  *- setup redux yield effect and test
 
- - create call effect that also handles normal functions
+ *- create call effect that also handles normal functions
+ *- put thiings into their own files and import them.
  - create tick effect
 
  - dispatch fireball generator
