@@ -6,7 +6,7 @@ TODO
 
  *- create call effect that also handles normal functions
  *- put thiings into their own files and import them.
- - create tick effect
+ *- create tick effect
 
  - dispatch fireball generator
  - create the fireball action generator
