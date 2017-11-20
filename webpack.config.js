@@ -13,7 +13,7 @@ var webpack = require('webpack');
                  test: /\.js$/,
                  loader: 'babel-loader',
                  query: {
-                     presets: ['es2015']
+                     presets: ['env']
                  }
              }
          ]
@@ -21,5 +21,5 @@ var webpack = require('webpack');
      stats: {
          colors: true
      },
-     devtool: 'source-map'
+	devtool: 'source-map'
  };

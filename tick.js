@@ -30,7 +30,7 @@ export const processor__tick = (effect, { effectGeneratorProcessor, dispatch }) 
 };
 
 export const tickMiddleware = store => {
-    const interval = 1000;
+    const interval = 100;
     let lastTime = Date.now();
     console.log('starting interval...');
     setInterval(() => {

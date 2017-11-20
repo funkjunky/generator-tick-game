@@ -8,9 +8,39 @@ TODO
  *- put thiings into their own files and import them.
  *- create tick effect
 
- - dispatch fireball generator
- - create the fireball action generator
+ *- fork yield effect, then update the call effect to also handle normal functions. Then make a pull request.
+
+ *- dispatch fireball generator
+ *- create the fireball action generator
+ - get it probably working
+ - add a logger for generator actions that looks at method.name, combined with regular dispatched actions.
 
  - create structure for game to handle fireball, friendly and enemy
  - create fireball generator
  - create the graphics with shapes in canvas using RAF
+
+
+ middleware, { meta:
+    {
+        selector: state => state.fireballs.last()
+    }
+}
+
+createFireball = caster => ({
+    caster,
+    meta: {
+        state => state.fireballs.last()
+    }
+});
+
+Q. When to unpack??
+A. When passing to a reducer action.
+
+const fireball = yield put({ x: 2 });
+//fireball is () => store.getState().fireballs.last()
+//Always gets the latest fireball!!
+yield seek(fireball().x);
+// Still do increments and steps, because they are explicit about what they are doing.
+yield stepFireball({ x: 0.5 });
+
+
