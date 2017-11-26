@@ -6,7 +6,6 @@ import { conjureFireball, seek, fireballExplosion, takeDamage } from './actions.
 
 //TODO: owner should own conjureFireball, so we do owner.conjureFireball. We could add or remove it as necessary.
 //      You could also do things like owner.learned.conjureFireball or owner.amulet.conjureFireball or owner.familiar.conjureFireball
-//TODO: target and owner should be functions to get the LATEST... OR their pos would be properties gotten from the store?? hmmm
 
 //Curry is necessary for react-redux later. connect shorthand
 export default (owner, target) => function* _fireball() {

@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { createYieldEffectMiddleware } from 'redux-yield-effect';
 import { put, fork, join } from 'redux-yield-effect/lib/effects';
 import { TYPE__CALL, processor__call, call } from './call.js';
-import { TYPE__TICK, processor__tick, tick, tickMiddleware } from './tick.js';
+import { TYPE__TICK, generateTickFunctions } from './tick.js';
 import { createEntity } from './attacks/actions.js';
 import fireball from './attacks/fireball.js';
 import reducer from './reducer.js';
@@ -11,14 +11,16 @@ import actionLogger from './actionLogger.js';
 import './endPolyFills.js'
 
 document.addEventListener('DOMContentLoaded', () => {
+    const tickFncs = generateTickFunctions();
+
     const store = createStore(
         reducer,
         applyMiddleware(
             createYieldEffectMiddleware({
                 [TYPE__CALL]: processor__call,
-                [TYPE__TICK]: processor__tick
+                [TYPE__TICK]: tickFncs.processor
             }),
-            tickMiddleware(1000),
+            tickFncs.middleware(1000),
             actionLogger('#logger'),
             metaSelector
         ),
@@ -37,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hp: 10,
         x: 5
     }));
-    console.log('me: ', store.getState(), me());
 
     store.dispatch(fireball(me, enemy)());
 });

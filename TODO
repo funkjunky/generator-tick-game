@@ -14,7 +14,8 @@ TODO
  *- create the fireball action generator
  *- get it probably working
 
- - clean up code
+ *- clean up code (not tick)
+ - clean up tick
 
  - create the graphics with shapes in canvas using RAF
 	- me thick triangle green

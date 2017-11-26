@@ -1,5 +1,6 @@
 export const TYPE__CALL = '__SIMPLE_CALL__';
 
+//TODO: this should be removed and I should use the yield effect library instead, once pull request is granted.
 //Description, The thing you yield
 export const call = (fnc, ...args) => ({
     type: TYPE__CALL,
