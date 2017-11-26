@@ -6,6 +6,6 @@ Object.defineProperty(Array.prototype, 'end', {
 
 Object.defineProperty(Object.prototype, 'end', {
     value: function() {
-        return this.values.end();
+        return Object.values(this).end();
     }
 });

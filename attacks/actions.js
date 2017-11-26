@@ -1,8 +1,10 @@
+import { put } from 'redux-yield-effect/lib/effects';
+import { tick } from '../tick.js';
+
 const conjureTime = 3000; //ms
 export const conjureFireball = owner => function* _conjureFireball() {
     //Create conjure object to keep track of amount of fireball conjured
     const conjureFireball = yield put(createConjureFireball(owner));
-    console.log('result from conjure: ', conjureFireball);
 
     //when this yields, we've finished conjuring!
     yield tick(function* _tick(dt) {
@@ -10,9 +12,9 @@ export const conjureFireball = owner => function* _conjureFireball() {
         const getPercent = yield put(incrementConjure(conjureFireball, dt / conjureTime));
         return 1 <= getPercent();
     });
-    console.log('done conjuring.');
 
-    return yield put(createFireball(owner));
+    const fireball = yield put(createFireball(owner));
+    return fireball;
 };
 
 const speed = 0.001; //x per ms
@@ -32,6 +34,7 @@ export const fireballExplosion = x => function* _fireballExplosion() {
 
     yield tick(function* _tick(dt) {
         const getPercent = yield put(incrementConjure(explosion, dt / conjureTime));
+        console.log('~~fire ball fire ('+getPercent()+')~~');
         return 1 <= getPercent();
     });
 };
@@ -39,25 +42,38 @@ export const fireballExplosion = x => function* _fireballExplosion() {
 let _id = 0;
 export const createEntity = props => ({
     type: 'CREATE_ENTITY',
-    id: ++_id,
-    ...props
+    entity: {
+        id: ++_id,
+        ...props
+    },
+    meta: metaEntitiesSelector
 });
 
 export const metaEntitiesSelector = {
-    selector: state => state.entities.end()
+    selector: (state, creationState) => {
+        const { id } = creationState.entities.end();
+        return state.entities[id];
+    }
 };
 
 export const createFireball = owner => createEntity({
     kind: 'spell',
     name: 'fireball',
-    owner: owner(),
-    meta: metaEntitiesSelector
+    dmg: 2,
+    x: owner().x,
+    owner: owner()
 });
 
 export const createConjureFireball = owner => createEntity({
     name: 'conjuring fireball',
-    elapsedTime: 0,
-    meta: metaEntitiesSelector
+    percent: 0
+});
+
+export const createExplosion = x => createEntity({
+    kind: 'spell',
+    name: 'explosion',
+    percent: 0,
+    x
 });
 
 export const incrementConjure = (entity, percent) => ({
@@ -65,7 +81,7 @@ export const incrementConjure = (entity, percent) => ({
     entity: entity(),
     percent,
     meta: {
-        selector: state => state.entities[entity.id].percent
+        selector: state => state.entities[entity().id].percent
     }
 });
 
@@ -79,15 +95,8 @@ export const seekStep = (entity, target, distance) => ({
     }
 });
 
-export const createExplosion = x => createEntity({
-    kind: 'spell',
-    name: 'explosion',
-    x,
-    meta: metaEntitiesSelector
-});
-
-export const takeDamage = (target, attack) => ({
+export const takeDamage = (entity, attack) => ({
     type: 'TAKE_DAMAGE',
-    target: target(),
+    entity: entity(),
     attack: attack()
 });

@@ -1,11 +1,6 @@
-export default (state={}, { type, entity }) => {
-    switch(type) {
-        case 'ADD_ENTITY':
-            return {
-                [entity.id]: entity
-            };
+import entities from './reducers/entities.js';
+import { combineReducers } from 'redux';
 
-        default:
-            return state;
-    }
-};
+export default combineReducers({
+    entities
+});

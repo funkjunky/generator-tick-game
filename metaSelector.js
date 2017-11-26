@@ -4,8 +4,8 @@
 export default store => next => action => {
     if(action.meta && action.meta.selector) {
         next(action);
-        return () => action.meta.selector(store.getState());
+        const creationState = store.getState();
+        return () => action.meta.selector(store.getState(), creationState);
     }
-    console.log('action: ', action);
-    next(action);
+    return next(action);
 };

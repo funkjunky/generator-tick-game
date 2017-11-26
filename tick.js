@@ -15,35 +15,40 @@ let effectProcessor;
 let _dispatch;
 
 export const processor__tick = (effect, { effectGeneratorProcessor, dispatch }) => {
-    //TODO: leaky... but Ineed the effect processor
+    //TODO: leaky... but I need the effect processor
     effectProcessor = effectGeneratorProcessor;
     _dispatch = dispatch;
 
     if(effect.payload.fnc instanceof GeneratorFunction) {
-        subscribers.push(effect.payload.fnc);
-        console.log('adding subscriber. All subs after: ', subscribers);
-        // somehow return a promise that is resolved only when the generator returns true??
-        return Promise.resolve();
+        return new Promise(resolve => subscribers.push([effect.payload.fnc, resolve]));
     } else {
         return Promise.reject('tick only takes a generator as a callback');
     }
 };
 
-export const tickMiddleware = store => {
-    const interval = 100;
+export const tickMiddleware = (interval = 1000) => store => {
     let lastTime = Date.now();
-    console.log('starting interval...');
     setInterval(() => {
-        subscribers.forEach(f => {
-        //console.log('a subscriber...', f);
-        const dt = Date.now() - lastTime;
-        lastTime = Date.now();
-        if(f instanceof GeneratorFunction) {
-            effectProcessor(f(dt), { dispatch: _dispatch });
-        } else {
-            f(dt);
-        }
-    })}, interval);
+        subscribers.forEach(([fnc, resolver]) => {
+            const dt = Date.now() - lastTime;
+            lastTime = Date.now();
+            if(fnc instanceof GeneratorFunction) {
+                const res = effectProcessor(fnc(dt), { dispatch: _dispatch });
+                res.then(isComplete => {
+                    if(isComplete) {
+                        subscribers = subscribers.filter(([fnc, rr]) => rr !== resolver);
+                        resolver();
+                    }
+                });
+            } else {
+                const isComplete = fnc(dt);
+                if(isComplete) {
+                    subscribers = subscribers.filter(([fnc, rr]) => rr !== resolver);
+                    resolver();
+                }
+            }
+        });
+    }, interval);
 
     return next => action => next(action);
 };
