@@ -20,6 +20,15 @@ export default (ctx, state, dt) => {
         ctx.lineTo(person.x * 50 - 25, y);
         ctx.closePath();
         ctx.stroke();
+
+        //health bars
+        ctx.strokeStyle = 'white';
+        ctx.fillStyle = 'white';
+
+        //full
+        ctx.strokeRect(person.x * 50 - 25, y + 55, 50, 10);
+        //remaining
+        ctx.fillRect(person.x * 50 - 25, y + 55, 50 * (person.hp / person.maxhp), 10);
     };
     const draw = {
         jason: jason => drawPerson(jason, c.green),
@@ -44,7 +53,7 @@ export default (ctx, state, dt) => {
         explosion: explosion => {
             ctx.fillStyle = c.orange;
             ctx.globalAlpha = 1 - explosion.percent;
-            ctx.globalAlpha = 0.1 + (0.5 - ((Math.round(explosion.percent * 100) % 30) / 60))
+            ctx.globalAlpha = 0.1 + (0.5 - ((Math.round(explosion.percent * 100) % 26) / 50))
             ctx.beginPath();
             ctx.arc(explosion.x * 50, y, 75, 0, Math.PI * 2);
             ctx.fill();
@@ -55,6 +64,8 @@ export default (ctx, state, dt) => {
     ctx.clearRect(0, 0, 640, 480);
     //default colour
     ctx.fillStyle = c.darkGreen;
+
+    ctx.fillRect(5, y + 100, 630, 10);
 
     Object.values(state.entities).reverse().forEach(entity => {
         ctx.save();

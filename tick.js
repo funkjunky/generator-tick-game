@@ -30,9 +30,9 @@ export const generateTickFunctions = () => {
     const middleware = (interval = 1000) => store => {
         let lastTime = Date.now();
         setInterval(() => {
+            const dt = Date.now() - lastTime;
+            lastTime = Date.now();
             subscribers.forEach(([fnc, resolver]) => {
-                const dt = Date.now() - lastTime;
-                lastTime = Date.now();
                 if(fnc instanceof GeneratorFunction) {
                     const res = effectProcessor(fnc(dt), { dispatch: store.dispatch });
                     res.then(isComplete => {

@@ -37,16 +37,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const me = store.dispatch(createEntity({
         id: 0,
         name: 'jason',
-        hp: 20,
+        maxhp: 30,
+        hp: 30,
         x: 1
     }));
 
     const enemy = store.dispatch(createEntity({
         id: 1,
         name: 'badGuy',
-        hp: 10,
+        maxhp: 20,
+        hp: 20,
         x: 10
     }));
 
-    store.dispatch(fireball(me, enemy)());
+    const timeoutFireballMe = () => {
+        if(me().hp < 0 || enemy().hp < 0) return;
+
+        store.dispatch(fireball(me, enemy)());
+        setTimeout(timeoutFireballMe, 2000 + Math.random() * 2000);
+    }
+    setTimeout(timeoutFireballMe, 1000);
+
+    const timeoutFireballEnemy = () => {
+        if(me().hp < 0 || enemy().hp < 0) return;
+
+        store.dispatch(fireball(enemy, me)());
+        setTimeout(timeoutFireballEnemy, 1000 + Math.random() * 5000);
+    };
+    timeoutFireballEnemy()
 });

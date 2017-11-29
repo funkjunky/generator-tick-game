@@ -1,7 +1,7 @@
 import { put } from 'redux-yield-effect/lib/effects';
 import { tick } from '../tick.js';
 
-const conjureTime = 3000; //ms
+const conjureTime = 2000; //ms
 export const conjureFireball = owner => function* _conjureFireball() {
     //Create conjure object to keep track of amount of fireball conjured
     const conjureFireball = yield put(createConjureFireball(owner));
@@ -27,7 +27,7 @@ export const seek = (owner, target) => function* _seek() {
     });
 };
 
-const explosion_duration = 2000; //ms
+const explosion_duration = 1500; //ms
 // uses fireballRadius
 export const fireballExplosion = x => function* _fireballExplosion() {
     //Create conjure object to keep track of amount of fireball conjured
@@ -35,7 +35,6 @@ export const fireballExplosion = x => function* _fireballExplosion() {
 
     yield tick(function* _tick(dt) {
         const getPercent = yield put(incrementConjure(explosion, dt / conjureTime));
-        console.log('~~fire ball fire ('+getPercent()+')~~');
         return 1 <= getPercent();
     });
 

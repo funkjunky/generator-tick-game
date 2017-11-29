@@ -25,10 +25,9 @@ TODO
 		*- people thick triangle
 		*- conjure blue circle 1-percent diameter [gets smaller as finishing] 
 		*- explosion is square 0.3 opacity + (Math.round(percentage * 100) % 30 / 10)
-	- see about adding scan line glsl shader, if it’s super easy
-	- add health bars
-	- loop between players casting fireballs against each other
-	- maybe add a little stage and sky?
+	*- add health bars
+	*- loop between players casting fireballs against each other
+	*- maybe add a little stage and sky?
 
  - address yield effect library stuff
 
