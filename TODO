@@ -15,13 +15,28 @@ TODO
  *- get it probably working
 
  *- clean up code (not tick)
- - clean up tick
+ *- clean up tick
 
- - create the graphics with shapes in canvas using RAF
-	- me thick triangle green
-	- enemy thick red triangle
-	- conjure blue circle 1-percent diameter [gets smaller as finishing] 
-	- fireball is orange circle
-	- explosion is square 0.3 opacity + (Math.round(percentage * 100) % 30 / 10)
+ - Graphics
+	*- setup canvas element 640 480, border background color white
+	*- setup RAF for canvas element on index
+	*- basic graphics
+	- make a little cooler [hollowed out]
+		*- people thick triangle
+		*- conjure blue circle 1-percent diameter [gets smaller as finishing] 
+		*- explosion is square 0.3 opacity + (Math.round(percentage * 100) % 30 / 10)
+	- see about adding scan line glsl shader, if it’s super easy
+	- add health bars
+	- loop between players casting fireballs against each other
+	- maybe add a little stage and sky?
 
- - Advanced Logger: somehow get root dispatches from store.dispatch and create a tree from there. Tricky problem to solve
+ - address yield effect library stuff
+
+ - create various npm libraries for middlewares
+ - rename repository to “effect-tick”
+ - make github.io demo out of graphics
+ - Greatly improve README for anyone to use
+ - post on reactiflux and other places!
+
+ - Advanced Logger with a tree
+	~ maybe in middleware to detect generator, then pass on to effect processor that it has a parent. I would need to intercept “put” effects to add them to the tree, and add a branch to be passed on to other put effects, also tick?? Different colours for effects and actions?

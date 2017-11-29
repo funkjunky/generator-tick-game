@@ -6,6 +6,11 @@ export default (state={}, { type, entity, percent, attack, distance, target }) =
                 [entity.id]: entity
             };
 
+        case 'REMOVE_ENTITY':
+            const newState = { ...state };
+            delete newState[entity.id];
+            return newState;
+
         case 'INCREMENT_CONJURE':
             return {
                 ...state,

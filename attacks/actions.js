@@ -12,12 +12,13 @@ export const conjureFireball = owner => function* _conjureFireball() {
         const getPercent = yield put(incrementConjure(conjureFireball, dt / conjureTime));
         return 1 <= getPercent();
     });
+    yield put(removeEntity(conjureFireball));
 
     const fireball = yield put(createFireball(owner));
     return fireball;
 };
 
-const speed = 0.001; //x per ms
+const speed = 0.01; //x per ms
 const fireballRadius = 0.1;
 export const seek = (owner, target) => function* _seek() {
     yield tick(function* _tick(dt) {
@@ -37,6 +38,8 @@ export const fireballExplosion = x => function* _fireballExplosion() {
         console.log('~~fire ball fire ('+getPercent()+')~~');
         return 1 <= getPercent();
     });
+
+    yield put(removeEntity(explosion));
 };
 
 let _id = 0;
@@ -47,6 +50,11 @@ export const createEntity = props => ({
         ...props
     },
     meta: metaEntitiesSelector
+});
+
+export const removeEntity = entity => ({
+    type: 'REMOVE_ENTITY',
+    entity: entity()
 });
 
 export const metaEntitiesSelector = {
@@ -65,7 +73,8 @@ export const createFireball = owner => createEntity({
 });
 
 export const createConjureFireball = owner => createEntity({
-    name: 'conjuring fireball',
+    name: 'conjuringFireball',
+    owner: owner(),
     percent: 0
 });
 

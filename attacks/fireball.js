@@ -2,7 +2,7 @@ import { put, fork, call as gcall } from 'redux-yield-effect/lib/effects';
 import { call } from '../call.js';
 import { tick } from '../tick.js';
 
-import { conjureFireball, seek, fireballExplosion, takeDamage } from './actions.js';
+import { conjureFireball, seek, fireballExplosion, takeDamage, removeEntity } from './actions.js';
 
 //TODO: owner should own conjureFireball, so we do owner.conjureFireball. We could add or remove it as necessary.
 //      You could also do things like owner.learned.conjureFireball or owner.amulet.conjureFireball or owner.familiar.conjureFireball
@@ -14,7 +14,10 @@ export default (owner, target) => function* _fireball() {
     console.log('FIREBALL CONJURED', fireball());
     yield gcall(seek(fireball, target));
     console.log('FIREBALL FOUND TARGET (fireball.x, target.x)', fireball().x, target().x);
-    yield fork(fireballExplosion(target().x));
+
     yield put(takeDamage(target, fireball));
+    yield put(removeEntity(fireball));
     console.log('TARGET DMGED', target().hp);
+
+    yield fork(fireballExplosion(target().x));
 };

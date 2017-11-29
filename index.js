@@ -8,7 +8,8 @@ import fireball from './attacks/fireball.js';
 import reducer from './reducer.js';
 import metaSelector from './metaSelector.js';
 import actionLogger from './actionLogger.js';
-import './endPolyFills.js'
+import graphics from './graphics.js';
+import './endPolyFills.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const tickFncs = generateTickFunctions();
@@ -20,24 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 [TYPE__CALL]: processor__call,
                 [TYPE__TICK]: tickFncs.processor
             }),
-            tickFncs.middleware(1000),
+            tickFncs.middleware(10),
             actionLogger('#logger'),
             metaSelector
         ),
     );
 
+    let ctx = document.querySelector('canvas').getContext('2d');
+    const step = dt => {
+        graphics(ctx, store.getState(), dt);
+        window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+
     const me = store.dispatch(createEntity({
         id: 0,
-        name: 'Jason',
+        name: 'jason',
         hp: 20,
-        x: 0
+        x: 1
     }));
 
     const enemy = store.dispatch(createEntity({
         id: 1,
-        name: 'Bad Guy',
+        name: 'badGuy',
         hp: 10,
-        x: 5
+        x: 10
     }));
 
     store.dispatch(fireball(me, enemy)());
