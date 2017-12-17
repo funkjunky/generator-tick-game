@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createYieldEffectMiddleware } from 'redux-yield-effect';
 import { put, fork, join } from 'redux-yield-effect/lib/effects';
-import { TYPE__CALL, processor__call, call } from './call.js';
 import { TYPE__TICK, generateTickFunctions } from 'effect-tick';
 import { createEntity } from './attacks/actions.js';
 import fireball from './attacks/fireball.js';
@@ -18,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         reducer,
         applyMiddleware(
             createYieldEffectMiddleware({
-                [TYPE__CALL]: processor__call,
                 [TYPE__TICK]: tickFncs.processor
             }),
             tickFncs.middleware(10),

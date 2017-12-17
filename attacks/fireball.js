@@ -1,5 +1,4 @@
-import { put, fork, call as gcall } from 'redux-yield-effect/lib/effects';
-import { call } from '../call.js';
+import { put, fork, call } from 'redux-yield-effect/lib/effects';
 import { tick } from 'effect-tick';
 
 import { conjureFireball, seek, fireballExplosion, takeDamage, removeEntity } from './actions.js';
@@ -10,9 +9,9 @@ import { conjureFireball, seek, fireballExplosion, takeDamage, removeEntity } fr
 //Curry is necessary for react-redux later. connect shorthand
 export default (owner, target) => function* _fireball() {
     console.log('START: ', target().hp);
-    const fireball = yield gcall(conjureFireball(owner))
+    const fireball = yield call(conjureFireball(owner))
     console.log('FIREBALL CONJURED', fireball());
-    yield gcall(seek(fireball, target));
+    yield call(seek(fireball, target));
     console.log('FIREBALL FOUND TARGET (fireball.x, target.x)', fireball().x, target().x);
 
     yield put(takeDamage(target, fireball));
