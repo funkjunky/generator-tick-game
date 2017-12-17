@@ -1,10 +1,11 @@
 import { put } from 'redux-yield-effect/lib/effects';
-import { tick } from '../tick.js';
+import { tick } from 'effect-tick';
 
 const conjureTime = 2000; //ms
 export const conjureFireball = owner => function* _conjureFireball() {
     //Create conjure object to keep track of amount of fireball conjured
     const conjureFireball = yield put(createConjureFireball(owner));
+    console.log('conjurefireball: ', conjureFireball);
 
     //when this yields, we've finished conjuring!
     yield tick(function* _tick(dt) {

@@ -2,14 +2,14 @@ import { createStore, applyMiddleware } from 'redux';
 import { createYieldEffectMiddleware } from 'redux-yield-effect';
 import { put, fork, join } from 'redux-yield-effect/lib/effects';
 import { TYPE__CALL, processor__call, call } from './call.js';
-import { TYPE__TICK, generateTickFunctions } from './tick.js';
+import { TYPE__TICK, generateTickFunctions } from 'effect-tick';
 import { createEntity } from './attacks/actions.js';
 import fireball from './attacks/fireball.js';
 import reducer from './reducer.js';
-import metaSelector from './metaSelector.js';
+import metaSelector from 'redux-meta-selector';
 import actionLogger from './actionLogger.js';
 import graphics from './graphics.js';
-import './endPolyFills.js';
+import 'end-polyFills';
 
 document.addEventListener('DOMContentLoaded', () => {
     const tickFncs = generateTickFunctions();

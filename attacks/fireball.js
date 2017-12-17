@@ -1,6 +1,6 @@
 import { put, fork, call as gcall } from 'redux-yield-effect/lib/effects';
 import { call } from '../call.js';
-import { tick } from '../tick.js';
+import { tick } from 'effect-tick';
 
 import { conjureFireball, seek, fireballExplosion, takeDamage, removeEntity } from './actions.js';
 
