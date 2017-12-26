@@ -48,13 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
         x: 10
     }));
 
-    const timeoutFireballMe = () => {
-        if(me().hp < 0 || enemy().hp < 0) return;
-
-        store.dispatch(fireball(me, enemy)());
-        setTimeout(timeoutFireballMe, 2000 + Math.random() * 2000);
-    }
-    setTimeout(timeoutFireballMe, 1000);
+    document.addEventListener('keyup', ({ keyCode }) => {
+        if(keyCode === 13) {
+            console.log('fireball launched');
+            store.dispatch(fireball(me, enemy)());
+        }
+    });
 
     const timeoutFireballEnemy = () => {
         if(me().hp < 0 || enemy().hp < 0) return;
