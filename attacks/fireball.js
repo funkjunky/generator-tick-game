@@ -18,5 +18,5 @@ export default (owner, target) => function* _fireball() {
     yield put(removeEntity(fireball));
     console.log('TARGET DMGED', target().hp);
 
-    yield fork(fireballExplosion(target().x));
+    yield fork(fireballExplosion(target().x, target().y));
 };

@@ -1,23 +1,26 @@
+const c = {
+    purple:     '#b35ce5',
+    darkGreen:  '#2dab9a',
+    blue:       '#65ecda',
+    green:      '#17ff70',
+    red:        '#ff3f3f',
+    orange:     '#ffaf3f'
+};
+
+const groundLevel = 10;
+const width = 5;
+
+const getReverseY = canvasHeight => y => canvasHeight - y - groundLevel;
+const reverseY = getReverseY(480);
+
 export default (ctx, state, dt) => {
-    const c = {
-        purple:     '#b35ce5',
-        darkGreen:  '#2dab9a',
-        blue:       '#65ecda',
-        green:      '#17ff70',
-        red:        '#ff3f3f',
-        orange:     '#ffaf3f'
-    };
-
-    const y = 100;
-    const width = 5;
-
     const drawPerson = (person, color) => {
         ctx.strokeStyle = color;
         ctx.lineWidth = width;
         ctx.beginPath();
-        ctx.moveTo(person.x * 50, y + 50);
-        ctx.lineTo(person.x * 50 + 25, y);
-        ctx.lineTo(person.x * 50 - 25, y);
+        ctx.moveTo(person.x * 50, reverseY(person.y + 50));
+        ctx.lineTo(person.x * 50 + 25, reverseY(person.y));
+        ctx.lineTo(person.x * 50 - 25, reverseY(person.y));
         ctx.closePath();
         ctx.stroke();
 
@@ -26,9 +29,9 @@ export default (ctx, state, dt) => {
         ctx.fillStyle = 'white';
 
         //full
-        ctx.strokeRect(person.x * 50 - 25, y + 55, 50, 10);
+        ctx.strokeRect(person.x * 50 - 25, reverseY(person.y + 55), 50, 10);
         //remaining
-        ctx.fillRect(person.x * 50 - 25, y + 55, 50 * (person.hp / person.maxhp), 10);
+        ctx.fillRect(person.x * 50 - 25, reverseY(person.y + 55), 50 * (person.hp / person.maxhp), 10);
     };
     const draw = {
         jason: jason => drawPerson(jason, c.green),
@@ -38,7 +41,7 @@ export default (ctx, state, dt) => {
             ctx.strokeStyle = c.blue;
             ctx.globalAlpha = 1 - conjure.percent;
             ctx.beginPath();
-            ctx.arc(conjure.owner.x * 50, y + 50, 50 - conjure.percent * 50, 0, Math.PI * 2);
+            ctx.arc(conjure.owner.x * 50, reverseY(conjure.owner.y + 50), 50 - conjure.percent * 50, 0, Math.PI * 2);
             ctx.stroke();
         },
         fireball: fireball => {
@@ -46,7 +49,7 @@ export default (ctx, state, dt) => {
             ctx.lineWidth = width;
             ctx.strokeStyle = c.red;
             ctx.beginPath();
-            ctx.arc(fireball.x * 50, y, 25, 0, Math.PI * 2);
+            ctx.arc(fireball.x * 50, reverseY(fireball.y), 25, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
         },
@@ -55,7 +58,7 @@ export default (ctx, state, dt) => {
             ctx.globalAlpha = 1 - explosion.percent;
             ctx.globalAlpha = 0.1 + (0.5 - ((Math.round(explosion.percent * 100) % 26) / 50))
             ctx.beginPath();
-            ctx.arc(explosion.x * 50, y, 75, 0, Math.PI * 2);
+            ctx.arc(explosion.x * 50, reverseY(explosion.y), 75, 0, Math.PI * 2);
             ctx.fill();
         }
     };
@@ -65,7 +68,7 @@ export default (ctx, state, dt) => {
     //default colour
     ctx.fillStyle = c.darkGreen;
 
-    ctx.fillRect(5, y + 100, 630, 10);
+    ctx.fillRect(5, reverseY(groundLevel - 10), 630, 10);
 
     Object.values(state.entities).reverse().forEach(entity => {
         ctx.save();

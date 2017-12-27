@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
         name: 'jason',
         maxhp: 30,
         hp: 30,
-        x: 1
+        x: 1,
+        y: 0
     }));
 
     const enemy = store.dispatch(createEntity({
@@ -45,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         name: 'badGuy',
         maxhp: 20,
         hp: 20,
-        x: 10
+        x: 10,
+        y: 0
     }));
 
     document.addEventListener('keyup', ({ keyCode }) => {

@@ -1,3 +1,5 @@
+const magnitude = (x, y) => Math.sqrt(x*x + y*y);
+
 export default (state={}, { type, entity, percent, attack, distance, target }) => {
     switch(type) {
         case 'CREATE_ENTITY':
@@ -21,11 +23,16 @@ export default (state={}, { type, entity, percent, attack, distance, target }) =
             };
 
         case 'SEEK_STEP':
+            const distanceFromTarget = magnitude(target.x - entity.x, target.y - entity.y);
+            const normalX = (target.x - entity.x) / distanceFromTarget;
+            const normalY = (target.y - entity.y) / distanceFromTarget;
+
             return {
                 ...state,
                 [entity.id]: {
                     ...state[entity.id],
-                    x: state[entity.id].x + (target.x > state[entity.id].x ? distance : -distance)
+                    x: state[entity.id].x + normalX * distance,
+                    y: state[entity.id].y + normalY * distance
                 }
             };
 

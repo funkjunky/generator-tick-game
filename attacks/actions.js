@@ -5,7 +5,6 @@ const conjureTime = 2000; //ms
 export const conjureFireball = owner => function* _conjureFireball() {
     //Create conjure object to keep track of amount of fireball conjured
     const conjureFireball = yield put(createConjureFireball(owner));
-    console.log('conjurefireball: ', conjureFireball);
 
     //when this yields, we've finished conjuring!
     yield tick(function* _tick(dt) {
@@ -30,9 +29,9 @@ export const seek = (owner, target) => function* _seek() {
 
 const explosion_duration = 1500; //ms
 // uses fireballRadius
-export const fireballExplosion = x => function* _fireballExplosion() {
+export const fireballExplosion = (x, y) => function* _fireballExplosion() {
     //Create conjure object to keep track of amount of fireball conjured
-    const explosion = yield put(createExplosion(x));
+    const explosion = yield put(createExplosion(x, y));
 
     yield tick(function* _tick(dt) {
         const getPercent = yield put(incrementConjure(explosion, dt / conjureTime));
@@ -69,6 +68,7 @@ export const createFireball = owner => createEntity({
     name: 'fireball',
     dmg: 2,
     x: owner().x,
+    y: owner().y + 50,
     owner: owner()
 });
 
@@ -78,11 +78,12 @@ export const createConjureFireball = owner => createEntity({
     percent: 0
 });
 
-export const createExplosion = x => createEntity({
+export const createExplosion = (x, y) => createEntity({
     kind: 'spell',
     name: 'explosion',
     percent: 0,
-    x
+    x,
+    y
 });
 
 export const incrementConjure = (entity, percent) => ({
@@ -100,7 +101,7 @@ export const seekStep = (entity, target, distance) => ({
     target: target(),
     distance,
     meta: {
-        selector: state => Math.abs(entity().x - target().x)
+        selector: state => Math.sqrt(Math.pow(Math.abs(entity().x - target().x), 2) + Math.pow(Math.abs(entity().y - target().y), 2))
     }
 });
 
