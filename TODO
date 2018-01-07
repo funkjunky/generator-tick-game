@@ -18,15 +18,26 @@ TODO
 
  *- add y coordinate to demo entity reducer and all actions
  *- update seek to work with y coordinate
- - add the y coordinate for graphics
- - ensure it all still works
+ *- add the y coordinate for graphics
+ *- ensure it all still works
 
- - add jump action
- - add movement keys and jump to my character
- - ensure it works and fireball still works
- - cancel conjure fireball if moving
+ *- add jump action
+ *- ensure it works
+ *- seek doesn’t seek y properly.
+ - commit, push
+
+ - npm link tick folder
+
+ - Tick: switch the effect for an action, so any library can use it. Also make a function version that isn’t based on an action/middleware.
 
  - things don’t feel entirely encapsulated…
+
+
+ - copy the code and create a seed project
+ - copy the seed and create a new game!
+	- ipad mini resolution
+	- collect game ideas from notes to think of my first RPG
+
 
  - Advanced Logger with a tree
 	~ maybe in middleware to detect generator, then pass on to effect processor that it has a parent. I would need to intercept “put” effects to add them to the tree, and add a branch to be passed on to other put effects, also tick?? Different colours for effects and actions?

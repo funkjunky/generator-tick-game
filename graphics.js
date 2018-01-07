@@ -18,9 +18,9 @@ export default (ctx, state, dt) => {
         ctx.strokeStyle = color;
         ctx.lineWidth = width;
         ctx.beginPath();
-        ctx.moveTo(person.x * 50, reverseY(person.y + 50));
-        ctx.lineTo(person.x * 50 + 25, reverseY(person.y));
-        ctx.lineTo(person.x * 50 - 25, reverseY(person.y));
+        ctx.moveTo(person.x, reverseY(person.y + 50));
+        ctx.lineTo(person.x + 25, reverseY(person.y));
+        ctx.lineTo(person.x - 25, reverseY(person.y));
         ctx.closePath();
         ctx.stroke();
 
@@ -29,9 +29,9 @@ export default (ctx, state, dt) => {
         ctx.fillStyle = 'white';
 
         //full
-        ctx.strokeRect(person.x * 50 - 25, reverseY(person.y + 55), 50, 10);
+        ctx.strokeRect(person.x - 25, reverseY(person.y + 55), 50, 10);
         //remaining
-        ctx.fillRect(person.x * 50 - 25, reverseY(person.y + 55), 50 * (person.hp / person.maxhp), 10);
+        ctx.fillRect(person.x - 25, reverseY(person.y + 55), 50 * (person.hp / person.maxhp), 10);
     };
     const draw = {
         jason: jason => drawPerson(jason, c.green),
@@ -41,7 +41,7 @@ export default (ctx, state, dt) => {
             ctx.strokeStyle = c.blue;
             ctx.globalAlpha = 1 - conjure.percent;
             ctx.beginPath();
-            ctx.arc(conjure.owner.x * 50, reverseY(conjure.owner.y + 50), 50 - conjure.percent * 50, 0, Math.PI * 2);
+            ctx.arc(conjure.owner.x, reverseY(conjure.owner.y + 50), 50 - conjure.percent * 50, 0, Math.PI * 2);
             ctx.stroke();
         },
         fireball: fireball => {
@@ -49,7 +49,7 @@ export default (ctx, state, dt) => {
             ctx.lineWidth = width;
             ctx.strokeStyle = c.red;
             ctx.beginPath();
-            ctx.arc(fireball.x * 50, reverseY(fireball.y), 25, 0, Math.PI * 2);
+            ctx.arc(fireball.x, reverseY(fireball.y), 25, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
         },
@@ -58,7 +58,7 @@ export default (ctx, state, dt) => {
             ctx.globalAlpha = 1 - explosion.percent;
             ctx.globalAlpha = 0.1 + (0.5 - ((Math.round(explosion.percent * 100) % 26) / 50))
             ctx.beginPath();
-            ctx.arc(explosion.x * 50, reverseY(explosion.y), 75, 0, Math.PI * 2);
+            ctx.arc(explosion.x, reverseY(explosion.y), 75, 0, Math.PI * 2);
             ctx.fill();
         }
     };

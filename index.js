@@ -8,6 +8,7 @@ import reducer from './reducer.js';
 import metaSelector from 'redux-meta-selector';
 import actionLogger from './actionLogger.js';
 import graphics from './graphics.js';
+import jump from './attacks/jump.js';
 import 'end-polyFills';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         name: 'jason',
         maxhp: 30,
         hp: 30,
-        x: 1,
+        x: 50,
         y: 0
     }));
 
@@ -46,16 +47,21 @@ document.addEventListener('DOMContentLoaded', () => {
         name: 'badGuy',
         maxhp: 20,
         hp: 20,
-        x: 10,
+        x: 500,
         y: 0
     }));
 
-    document.addEventListener('keyup', ({ keyCode }) => {
-        if(keyCode === 13) {
+    document.addEventListener('keyup', e => {
+        e.preventDefault();
+        if(e.keyCode === 13) {
             console.log('fireball launched');
             store.dispatch(fireball(me, enemy)());
+        } else if(e.keyCode === 32) {
+            store.dispatch(jump(me)());
         }
     });
+
+    document.addEventListener('keydown', e => { if(e.keyCode === 32) e.preventDefault() });
 
     const timeoutFireballEnemy = () => {
         if(me().hp < 0 || enemy().hp < 0) return;

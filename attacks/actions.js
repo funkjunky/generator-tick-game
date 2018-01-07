@@ -18,7 +18,7 @@ export const conjureFireball = owner => function* _conjureFireball() {
     return fireball;
 };
 
-const speed = 0.01; //x per ms
+const speed = 0.1; //x per ms
 const fireballRadius = 0.1;
 export const seek = (owner, target) => function* _seek() {
     yield tick(function* _tick(dt) {
