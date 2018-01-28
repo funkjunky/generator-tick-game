@@ -89,7 +89,7 @@ export default (state={}, { type, entity, percent, attack, distance, target, dt 
             const distanceFromTarget = magnitude(vx, vy);
             const normalX = vx / distanceFromTarget;
             const normalY = vy / distanceFromTarget;
-            console.log('distance, normals: ', distance, normalX, normalY);
+            //console.log('distance, normals: ', distance, normalX, normalY);
 
             return {
                 ...state,

@@ -1,5 +1,5 @@
 import { put } from 'redux-yield-effect/lib/effects';
-import { tick } from 'effect-tick';
+import { addTick } from 'effect-tick';
 
 const conjureTime = 2000; //ms
 export const conjureFireball = owner => function* _conjureFireball() {
@@ -7,11 +7,12 @@ export const conjureFireball = owner => function* _conjureFireball() {
     const conjureFireball = yield put(createConjureFireball(owner));
 
     //when this yields, we've finished conjuring!
-    yield tick(function* _tick(dt) {
+    //TODO: do all tick functions like this.
+    yield put(addTick(function* _tick(dt) {
         //increment the percent conjured
         const getPercent = yield put(incrementConjure(conjureFireball, dt / conjureTime));
         return 1 <= getPercent();
-    });
+    }));
     yield put(removeEntity(conjureFireball));
 
     const fireball = yield put(createFireball(owner));
@@ -21,10 +22,10 @@ export const conjureFireball = owner => function* _conjureFireball() {
 const speed = 0.1; //x per ms
 const fireballRadius = 0.1;
 export const seek = (owner, target) => function* _seek() {
-    yield tick(function* _tick(dt) {
+    yield put(addTick(function* _tick(dt) {
         const distance = yield put(seekStep(owner, target, dt * speed));
         return fireballRadius > distance();
-    });
+    }));
 };
 
 const explosion_duration = 1500; //ms
@@ -33,10 +34,10 @@ export const fireballExplosion = (x, y) => function* _fireballExplosion() {
     //Create conjure object to keep track of amount of fireball conjured
     const explosion = yield put(createExplosion(x, y));
 
-    yield tick(function* _tick(dt) {
+    yield put(addTick(function* _tick(dt) {
         const getPercent = yield put(incrementConjure(explosion, dt / conjureTime));
         return 1 <= getPercent();
-    });
+    }));
 
     yield put(removeEntity(explosion));
 };

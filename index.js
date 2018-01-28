@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createYieldEffectMiddleware } from 'redux-yield-effect';
 import { put, fork, join } from 'redux-yield-effect/lib/effects';
-import { TYPE__TICK, generateTickFunctions } from 'effect-tick';
+import { tickMiddleware, resumeTicks, pauseTicks } from 'effect-tick';
 import { createEntity } from './attacks/actions.js';
 import fireball from './attacks/fireball.js';
 import reducer from './reducer.js';
@@ -12,19 +12,16 @@ import jump from './attacks/jump.js';
 import 'end-polyFills';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const tickFncs = generateTickFunctions();
-
     const store = createStore(
         reducer,
         applyMiddleware(
-            createYieldEffectMiddleware({
-                [TYPE__TICK]: tickFncs.processor
-            }),
-            tickFncs.middleware(10),
+            createYieldEffectMiddleware(),
+            tickMiddleware,
             actionLogger('#logger'),
             metaSelector
         ),
     );
+    store.dispatch(resumeTicks());
 
     let ctx = document.querySelector('canvas').getContext('2d');
     const step = dt => {
@@ -41,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         x: 50,
         y: 0
     }));
+    console.log('me: ', createEntity);
 
     const enemy = store.dispatch(createEntity({
         id: 1,
@@ -66,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeoutFireballEnemy = () => {
         if(me().hp < 0 || enemy().hp < 0) return;
 
+        console.log('enemy started fireball');
         store.dispatch(fireball(enemy, me)());
         setTimeout(timeoutFireballEnemy, 1000 + Math.random() * 5000);
     };
