@@ -11,14 +11,14 @@ import { createEntity, removeEntity } from '../index.js';
 //      You could also do things like owner.learned.conjureFireball or owner.amulet.conjureFireball or owner.familiar.conjureFireball
 
 //Curry is necessary for react-redux later. connect shorthand
-export default (owner, target) => function* _fireball() {
-    const fireball = yield call(conjureFireball(owner))
-    yield call(seek(fireball, target));
+export default function* _fireball(owner, target) {
+    const fireball = yield call(conjureFireball, owner)
+    yield call(seek, fireball, target);
 
     yield put(takeDamage(target, fireball));
     yield put(removeEntity(fireball));
 
-    yield fork(fireballExplosion(target().x, target().y));
+    yield fork(fireballExplosion, target().x, target().y);
 };
 
 export const createFireball = owner => createEntity({

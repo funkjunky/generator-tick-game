@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         if(e.keyCode === 13) {
             console.log('fireball launched');
-            store.dispatch(fireball(me, enemy)());
+            store.dispatch(fireball(me, enemy));
         } else if(e.keyCode === 32) {
-            store.dispatch(jump(me)());
+            store.dispatch(jump(me));
         }
     });
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(me().hp < 0 || enemy().hp < 0) return;
 
         console.log('enemy started fireball');
-        store.dispatch(fireball(enemy, me)());
+        store.dispatch(fireball(enemy, me));
         setTimeout(timeoutFireballEnemy, 1000 + Math.random() * 5000);
     };
     timeoutFireballEnemy()

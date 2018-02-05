@@ -4,7 +4,7 @@ import { createEntity, removeEntity } from '../index.js';
 import { createFireball } from './index.js';
 
 const conjureTime = 2000; //ms
-export default owner => function* _conjureFireball() {
+export default function* _conjureFireball(owner) {
     //Create conjure object to keep track of amount of fireball conjured
     const conjureFireball = yield put(createConjureFireball(owner));
 

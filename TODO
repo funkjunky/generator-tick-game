@@ -33,8 +33,8 @@ TODO
 
  *- clean up folder structure
  *- graphics should be in a separate folder.. for now keep it in graphics.js
- - get the thing working again with the file moves.
- - all generator actions should probably be taken down a function. Do I need to do args => generator(), while not just generator(args)?
+ *- get the thing working again with the file moves.
+ *- all generator actions should probably be taken down a function. Do I need to do args => generator(), while not just generator(args)?
 
  - things don’t feel entirely encapsulated… Make them nice
 

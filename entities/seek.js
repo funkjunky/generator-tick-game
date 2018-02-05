@@ -3,7 +3,7 @@ import { addTick } from 'effect-tick';
 
 const speed = 0.1; //x per ms
 const fireballRadius = 0.1;
-export const seek = (owner, target) => function* _seek() {
+export const seek = function* _seek(owner, target) {
     yield put(addTick(function* _tick(dt) {
         const distance = yield put(seekStep(owner, target, dt * speed));
         return fireballRadius > distance();

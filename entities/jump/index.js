@@ -24,7 +24,7 @@ export const jump_step = (entity, dt) => ({
 });
 
 //infinite jumps!
-export default entity => function* _jump() {
+export default function* _jump(entity) {
     const jumpsUsed = yield put(addJump(entity));
     console.log('jumps used: ', jumpsUsed());
     if (jumpsUsed() <= 1) {

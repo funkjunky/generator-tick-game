@@ -7,7 +7,7 @@ import { incrementConjure } from './conjure.js';
 const conjureTime = 2000; //ms
 const explosion_duration = 1500; //ms
 // uses fireballRadius
-export default (x, y) => function* _fireballExplosion() {
+export default function* _fireballExplosion(x, y) {
     //Create conjure object to keep track of amount of fireball conjured
     const explosion = yield put(createExplosion(x, y));
 
