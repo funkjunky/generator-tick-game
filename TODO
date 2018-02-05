@@ -31,10 +31,15 @@ TODO
  *- Tick: switch the effect for an action, so any library can use it.
  *- get my project to work with the new action version.
 
+ *- clean up folder structure
+ *- graphics should be in a separate folder.. for now keep it in graphics.js
+ - get the thing working again with the file moves.
+ - all generator actions should probably be taken down a function. Do I need to do args => generator(), while not just generator(args)?
+
  - things don’t feel entirely encapsulated… Make them nice
 
-
  - copy the code and create a seed project
+ - get the seed working with parcel instead of webpack/babel
  - copy the seed and create a new game!
 	- ipad mini resolution
 

@@ -16,7 +16,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
-    "effect-tick": "^1.0.0",
+    "effect-tick": "^2.0.0",
     "end-polyfills": "^1.0.0",
     "redux": "^3.7.2",
     "redux-meta-selector": "^1.0.0",
